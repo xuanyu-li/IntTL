@@ -216,16 +216,16 @@ Compute.dcov_p=function(index.Y,added.Reg.matrix,dags,K){
   ### index.Y index of residual corresponding to response variable
   ### reg.coeff coefficient of regression, which is of length K*(p-1)
   ### comp.X n\times p sample matrix; p>=2
-  replicates = 400
+  replicates = 500
   p=ncol(dags[[1]]$DAG_sample)
   n=nrow(dags[[1]]$DAG_sample)
-  if (p> 80) {
+  if (p> 90) {
     cors <- abs(cor(dags[[1]]$DAG_sample[,-index.Y], dags[[1]]$DAG_sample[,index.Y]))
-    top_100_idx <- order(cors, decreasing = TRUE)[1:80]
+    top_100_idx <- order(cors, decreasing = TRUE)[1:90]
     # Subset the x matrix to those top 100 variables
     top_100_idx <- sort(top_100_idx)
     reg.coeff = added.Reg.matrix[,index.Y]
-    comp.dcov.Kcol = matrix(0,80,K)
+    comp.dcov.Kcol = matrix(0,90,K)
     for (i in 1:K) {
       comp.resid = dags[[i]]$DAG_sample %*% reg.coeff[1:p + p*(i-1)] 
       other.X = dags[[i]]$DAG_sample[,-index.Y]

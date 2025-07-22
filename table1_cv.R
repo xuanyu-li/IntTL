@@ -219,30 +219,30 @@ run_simu = function(run.n, run.p, run.K, run.example, run.pi,run.hardth, run.tun
   data.result = rbind(data.result, result.meanstd) 
   
   ## Mdirect 
-  start_time <- proc.time() 
-  
-  # Pre-allocate a matrix with 4 columns (TPR, FDR, SHD, MCC)
-  result <- matrix(NA, nrow = 4, ncol = iter) 
-  # Fill in the result matrix
-  for (i in 1:iter) {
-    result[, i] <- running.mdirect(iter, run.example, run.n, run.p, run.K,
-                                   run.hardth, run.tuning, run.pi, criti.val_c)
+  if (run.p < run.n) {
+    start_time <- proc.time() 
+    # Pre-allocate a matrix with 4 columns (TPR, FDR, SHD, MCC)
+    result <- matrix(NA, nrow = 4, ncol = iter) 
+    # Fill in the result matrix
+    for (i in 1:iter) {
+      result[, i] <- running.mdirect(iter, run.example, run.n, run.p, run.K,
+                                     run.hardth, run.tuning, run.pi, criti.val_c)
+    }
+    end_time <- proc.time()
+    elapsed_time <- as.numeric((proc.time() - start_time)['elapsed'])
+    
+    result.mean = apply(result, 1, mean)
+    result.mean = round(result.mean,3)
+    
+    result.std  = apply(result, 1, function(x) sqrt(var(x)))
+    result.std = round(result.std,2)
+    result.meanstd = paste(result.mean,result.std,sep = "(")
+    result.meanstd = paste(result.meanstd,c(),sep = ")")
+    result.meanstd = append(result.meanstd, "Mdirect",0)
+    result.meanstd = c(result.meanstd, elapsed_time/iter)
+    
+    data.result = rbind(data.result, result.meanstd) 
   }
-  end_time <- proc.time()
-  elapsed_time <- as.numeric((proc.time() - start_time)['elapsed'])
-  
-  result.mean = apply(result, 1, mean)
-  result.mean = round(result.mean,3)
-  
-  result.std  = apply(result, 1, function(x) sqrt(var(x)))
-  result.std = round(result.std,2)
-  result.meanstd = paste(result.mean,result.std,sep = "(")
-  result.meanstd = paste(result.meanstd,c(),sep = ")")
-  result.meanstd = append(result.meanstd, "Mdirect",0)
-  result.meanstd = c(result.meanstd, elapsed_time/iter)
-  
-  data.result = rbind(data.result, result.meanstd) 
-  
   xtable(data.result)
 }
 
@@ -334,7 +334,7 @@ num_fold = 5
 cv_bool = TRUE
 run_simu(run.n, run.p, run.K, run.example, run.pi,run.hardth, run.tuning,criti.val_c, num_fold, run.tuning_grid,cv_bool)
 
-source("Integrative_high.R")
+
 ###  hub
 run.n = 200
 run.p = 243
@@ -348,7 +348,7 @@ criti.val_c = 0.01
 num_fold = 5
 cv_bool = FALSE
 run_simu(run.n, run.p, run.K, run.example, run.pi,run.hardth, run.tuning,criti.val_c, num_fold, run.tuning_grid,cv_bool)
-
+source("Integrative_high.R")
 ###  ba
 run.n = 200
 run.p = 243
