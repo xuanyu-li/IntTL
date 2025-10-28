@@ -11,8 +11,7 @@ source("../simulation_example/DAGs_generate.R")
 source("../main_functions/Integrative_learning.R")
 source("../main_functions/CV_selection.R")
 source("../main_functions/evaluation.R")
-source("../MD-LiNGAM/MDLiNGAM_Final.r")
-source("../MD-LiNGAM/AdjMatrix_Final.r")
+
 
 #----------------------------
 # Parameters for one illustrative run

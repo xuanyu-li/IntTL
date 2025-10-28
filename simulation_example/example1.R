@@ -13,8 +13,6 @@ source("DAGs_generate.R")                            # DAGs() (local to this fol
 source("../main_functions/Integrative_learning.R")  # TLLiNGAM() and related
 source("../main_functions/CV_selection.R")          # CV utilities (kept for compatibility)
 source("../main_functions/evaluation.R")            # Evaluation.DAG()
-source("../MD-LiNGAM/MDLiNGAM_Final.r")
-source("../MD-LiNGAM/AdjMatrix_Final.r")
 
 
 #----------------------------
@@ -90,19 +88,10 @@ run_one <- function(run.n, run.p, run.K, run.example, run.pi, run.hardth, run.tu
   est_ggl_list <- lapply(est_ggl_list, function(mat) { m <- as.matrix(mat); m[lower.tri(m)] <- t(m)[lower.tri(m)]; m })
   eval_ggl <- Evaluation.DAG(est_ggl_list, true_adjacent, run.K)$Eval_result
   
-  ## 5) MDLiNGAM (run MD-LiNGAM on each dataset separately)
-  est_mdirect <- vector("list", run.K)
-  for (k in seq_len(run.K)) {
-    md_res <- MDLiNGAM(X = dags[[k]]$DAG_sample, maxInDegree = 10 * run.pi,
-                       degree = 10 * run.pi, cutOffScaling = 1)
-    md_adj_obj <- Get_AdjMatrix(bin_adj = md_res$estimated_adjace, sample_matrix = dags[[k]]$DAG_sample)
-    est_mdirect[[k]] <- md_adj_obj$estimated_adjace
-  }
-  eval_mdirect <- Evaluation.DAG(est_mdirect, true_adjacent, run.K)$Eval_result
   
-  ## 6) put together a small summary table (TPR / FDR / SHD / MCC as in evaluation)
-  methods <- c("IntTL", "TL (pooled)", "Single-TL", "GGL", "MDirect")
-  results_matrix <- rbind(eval_inttl, eval_tl, eval_single_tl, eval_ggl, eval_mdirect)
+  ## 5) put together a small summary table (TPR / FDR / SHD / MCC as in evaluation)
+  methods <- c("IntTL", "TL (pooled)", "Single-TL", "GGL")
+  results_matrix <- rbind(eval_inttl, eval_tl, eval_single_tl, eval_ggl)
   rownames(results_matrix) <- methods
   return(as.data.frame(results_matrix))
 }

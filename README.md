@@ -12,7 +12,6 @@ graphs).
   - `evaluation.R` — evaluation metrics and `Evaluation.DAG()`
 - `simulation_example/` — a short, self-contained example you can run in a
   few seconds: `example1.R`, `example2.R` and `DAGs_generate.R`
-- `MD-LiNGAM/` — scripts and a local package used for the MD-LiNGAM baseline
 
 
 ## Quick start (recommended)
@@ -30,13 +29,6 @@ Install required packages in R (minimal list used by examples):
 
 ```r
 install.packages(c('Matrix', 'igraph', 'JGL', 'gglasso', 'energy'))
-```
-
-MD-LiNGAM baseline: there is a local package archive in `MD-LiNGAM/`
-(`highDLingam_1.0.tar.gz`). To install it locally (from the repo root):
-
-```r
-install.packages('MD-LiNGAM/highDLingam_1.0.tar.gz', repos = NULL, type = 'source')
 ```
 
 If a script fails with a missing-package error, install the package and re-run.
