@@ -1,38 +1,43 @@
-The program files are for the implementation of our IntTL method proposed in the paper NTEGRATIVE LEARNING OF LINEAR NON-GAUSSIAN DIRECTED ACYCLIC GRAPHS WITH APPLICATION ON MULTI-SOURCE GENE REGULATORY NETWORK ANALYSIS
+# IntTL — Integrative learning of linear non-Gaussian DAGs
 
-A complete list of the programs:
+This repo contains the implementation and scripts used in the
+IntTL paper (integrative learning of linear non-Gaussian directed acyclic
+graphs).
 
-CV_selection.R
+## What is here
+- `main_functions/` — core algorithms and helpers
+  - `Integrative_learning.R` — IntTL implementation and internal helpers
+  - `Integrative_high.R` — IntTL for high-dimensional graphs
+  - `CV_selection.R` — cross-validation utilities
+  - `evaluation.R` — evaluation metrics and `Evaluation.DAG()`
+- `simulation_example/` — a short, self-contained example you can run in a
+  few seconds: `example1.R`, `example2.R` and `DAGs_generate.R`
+- `MD-LiNGAM/` — scripts and a local package used for the MD-LiNGAM baseline
 
-DAGs_generate.R
 
-evaluation.R
+## Quick start (recommended)
+1. Open R and run:
 
-Integrative_high.R
-
-Integrative_learning.R
-
-table1_cv.R
-
-table1-moreEdges.R
-
-table2_cv.R
-
-table3_cv.R
-
-table4_cv.R
-
-table_unb2.R
-
-table_unb1.R
-
-MD-LiNGAM
-
-run_all.sh
-
-The whole simulation results can be reproduced by running
-```
-$ ./run_all.sh
+```r
+source('simulation_example/example.R')
 ```
 
- It will load the functions and R packages, and perform simulation trials of the paper. One can perform simulations with different settings by modifying the parameters. The folder MD-LiNGAM contains the files needed to implement the Mdirect method. To implement this method, you should first install the highDLinGam package by the file highDLingam_1.0.tar.gz in the MD-LiNGAM folder. 
+This example simulates one dataset and compares IntTL to several baselines
+(pooled TL, single-task TL, group graphical lasso, MD-LiNGAM).
+ 
+## Dependencies
+Install required packages in R (minimal list used by examples):
+
+```r
+install.packages(c('Matrix', 'igraph', 'JGL', 'gglasso', 'energy'))
+```
+
+MD-LiNGAM baseline: there is a local package archive in `MD-LiNGAM/`
+(`highDLingam_1.0.tar.gz`). To install it locally (from the repo root):
+
+```r
+install.packages('MD-LiNGAM/highDLingam_1.0.tar.gz', repos = NULL, type = 'source')
+```
+
+If a script fails with a missing-package error, install the package and re-run.
+ 
